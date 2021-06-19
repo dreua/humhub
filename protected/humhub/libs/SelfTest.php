@@ -160,9 +160,10 @@ class SelfTest
         }
 
         // Checks PCNTL Extension
-        $title = 'PHP - PCNTL Extension';
-
-        if (function_exists('pcntl_signal')) {
+	$title = 'PHP - PCNTL Extension';
+	// PCNTL may be disabled in webserver context but available in php-cli
+	// where it is actually needed.
+        if (function_exists('pcntl_signal') || shell_exec('php -r \'echo function_exists("pcntl_signal");\'') == '1') {
             $checks[] = [
                 'title' => Yii::t('base', $title),
                 'state' => 'OK'
